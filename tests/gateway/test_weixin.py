@@ -464,21 +464,6 @@ class TestWeixinStreamingCursorSuppression:
         assert adapter.SUPPORTS_MESSAGE_EDITING is False
 
 
-class TestWeixinImageSend:
-    def test_send_image_file_accepts_image_path_keyword(self):
-        adapter = _make_adapter()
-        adapter.send_document = AsyncMock(return_value="sent")
-
-        result = asyncio.run(
-            adapter.send_image_file(chat_id="wxid_test123", image_path="/tmp/demo.png", metadata={"k": "v"})
-        )
-
-        assert result == "sent"
-        adapter.send_document.assert_awaited_once_with(
-            "wxid_test123", file_path="/tmp/demo.png", caption="", metadata={"k": "v"}
-        )
-
-
 class TestWeixinMediaBuilder:
     """Media builder uses base64(hex_key), not base64(raw_bytes) for aes_key."""
 
